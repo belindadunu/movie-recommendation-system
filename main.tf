@@ -4,7 +4,7 @@ terraform {
     organization = "C4_Final_Proj"
 
     workspaces {
-      name = "c4-final-proj"
+      name = "default"
     }
   }
 }
