@@ -3,7 +3,9 @@ terraform {
   backend "remote" {
     organization = "C4_Final_Proj"
 
-    workspaces = "default"
+    workspaces {
+      name = "c4-final-proj"
+    }
   }
 }
 
