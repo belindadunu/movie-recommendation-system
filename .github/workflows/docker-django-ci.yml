@@ -13,7 +13,7 @@ env:
   DOCKER_PASSWORD: '${{ secrets.DOCKER_PASSWORD }}'
 
 jobs:
-  build-backend:
+  build-backends:
     runs-on: ubuntu-latest
 
     steps:
