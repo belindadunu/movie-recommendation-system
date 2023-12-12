@@ -17,12 +17,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -52,7 +46,6 @@ jobs:
           username: '${{ env.DOCKER_USERNAME }}'
           password: '${{ env.DOCKER_PASSWORD }}'
 
-
   build-backend:
     runs-on: ubuntu-latest
 
@@ -71,7 +64,6 @@ jobs:
           docker build -t d10-fe:$GITHUB_SHA ./frontend
           docker push d10-fe:$GITHUB_SHA
   deploy:
-    needs: [build-backend, build-frontend]
     runs-on: ubuntu-latest
 
     steps:
@@ -82,8 +74,11 @@ jobs:
         run: |
           sed -i 's/v1.0/$GITHUB_SHA/' -f deploymentbe.yaml -f deploymentfe.yaml
 
-      - name: Configure AWS credentials
-        # ... (configure AWS credentials if needed)
+      - name: Configure AWS Credentials 
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Install kubectl
         uses: aws-actions/setup-kubectl@v1
