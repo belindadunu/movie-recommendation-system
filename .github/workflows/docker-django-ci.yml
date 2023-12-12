@@ -71,7 +71,7 @@ jobs:
       run: |  
         kustomize edit set image bdunu/d10-be=${{ github.sha }}-$GITHUB_SHA
         kustomize edit set image bdunu/d10-fe=${{ github.sha }}-$GITHUB_SHA
-        kustomize build . | kubectl apply -f -
+        kustomize build . | kubectl apply -f - 
 
     - name: Check rollout status  
       run: |
