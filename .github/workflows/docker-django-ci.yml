@@ -64,7 +64,6 @@ jobs:
         run: |
           docker build -t d10-fe:$GITHUB_SHA ./frontend
           docker push d10-fe:$GITHUB_SHA
-
   deploy:
     needs: [build-backend, build-frontend]
     runs-on: ubuntu-latest
