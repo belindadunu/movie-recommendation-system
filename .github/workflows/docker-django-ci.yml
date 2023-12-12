@@ -1,6 +1,5 @@
 name: Django-Docker CD
 
-name: Django-Docker CD
 'on':
   push:
     branches:
