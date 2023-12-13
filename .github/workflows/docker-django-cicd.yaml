@@ -47,7 +47,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}  
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Push images
+    - name: Push image
       run: |  
         docker push aubreyz/d10be5:${{ github.sha }}
         docker push aubreyz/d10-fe5:${{ github.sha }}
