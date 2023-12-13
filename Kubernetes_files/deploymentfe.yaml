@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: frontend
@@ -14,7 +13,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: bdunu/d10-fe:$GITHUB_SHA
+          image: aubreyz/d10-fe5:${{ github.sha }}
           ports:
             - name: http
               containerPort: 80
