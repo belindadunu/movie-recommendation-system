@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: bdunu/d10-fe:$GITHUB_SHA
+          image: bdunu/d10-fe:${{ github.sha }}
           ports:
             - name: http
               containerPort: 80
