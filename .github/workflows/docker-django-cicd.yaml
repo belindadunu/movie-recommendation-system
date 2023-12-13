@@ -49,8 +49,8 @@ jobs:
 
     - name: Push images
       run: |  
-        docker push aubreyz/d10be5:${{ github.sha }}-$GITHUB_SHA
-        docker push aubreyz/d10-fe5:${{ github.sha }}-$GITHUB_SHA
+        docker push aubreyz/d10be5:${{ github.sha }}
+        docker push aubreyz/d10-fe5:${{ github.sha }}
         
   deploy:
     needs: build
