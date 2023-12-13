@@ -62,10 +62,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install kubectl 
-        uses: aws/setup-kubectl@v1
-        with:
-          version: 'v1.24'
+      - name: Install kubectl
+        run: |
+          curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.24.0/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
