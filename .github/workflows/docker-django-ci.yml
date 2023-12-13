@@ -91,3 +91,10 @@ jobs:
       with:
         args: rollout status deployment/backend
               rollout status deployment/frontend
+
+    - name: Debugging
+      run: |
+        kubectl get deployments
+        kubectl describe deployments/backend
+        kubectl describe deployments/frontend
+
