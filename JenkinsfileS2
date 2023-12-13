@@ -4,7 +4,8 @@ pipeline{
         AWS_EKS_REGION = 'us-east-1'
     }
         
-    stage('Creating the Cluster') {
+    stages{
+        stage('Creating the Cluster') {
             agent {
                 label 'awsDeploy3'
             }
@@ -14,10 +15,12 @@ pipeline{
                         string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
                     ]) {
-                        sh "eksctl create cluster finalv1 --vpc-private-subnets=subnet-0cbac7b7b36f2c2e7,subnet-044cdd9247274a147 --vpc-public-subnets=subnet-0e727da3a94299f25,subnet-07a946ebc77a39f16 --without-nodegroup"
+                        sh "eksctl create cluster final --vpc-private-subnets=subnet-0cbac7b7b36f2c2e7,subnet-044cdd9247274a147 
+                        --vpc-public-subnets=subnet-0e727da3a94299f25,subnet-07a946ebc77a39f16 --without-nodegroup"
                     }
                 }
             }
         }
 
+    }
 }
