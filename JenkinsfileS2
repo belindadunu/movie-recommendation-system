@@ -1,4 +1,7 @@
 pipeline {
+         agent {
+                label 'awsDeploy3'
+            }
     environment {
         AWS_EKS_REGION = 'us-east-1'
         AWS_EKS_CLUSTER_NAME = 'finalv1'
