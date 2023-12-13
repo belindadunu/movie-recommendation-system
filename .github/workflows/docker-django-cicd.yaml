@@ -1,4 +1,4 @@
-name: Django-Docker
+name: Django-Docker-CICD
 
 on:
   push:
@@ -62,12 +62,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install kubectl
-        run: |
-          curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.24.0/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -104,4 +98,3 @@ jobs:
             kubectl set image deployment/frontend aubreyz/d10-fe5
             kubectl rollout status deployment/frontend
             kubectl get pods -l app=frontend
-
