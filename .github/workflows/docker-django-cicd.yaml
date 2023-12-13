@@ -20,13 +20,13 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Cache pip dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/backend/*requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      # - name: Cache pip dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.cache/pip
+      #     key: ${{ runner.os }}-pip-${{ hashFiles('**/backend/*requirements.txt') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pip-
 
       - name: Install dependencies
         run: |
@@ -62,6 +62,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install kubectl 
+        uses: aws-actions/setup-kubectl@v1
+        with:
+          version: 'v1.24'
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -78,6 +83,8 @@ jobs:
       - name: Deploy to EKS cluster
         uses: kodermax/kubectl-aws-eks@main
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
           args: |
