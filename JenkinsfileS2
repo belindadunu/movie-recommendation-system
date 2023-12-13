@@ -9,7 +9,7 @@ pipeline {
     }
 
     stages {
-        stage('applying to backend deployment/service to EKS') {
+        stage('applying to all files to EKS') {
             agent {
                 label 'awsDeploy3'
             }
@@ -19,7 +19,7 @@ pipeline {
                         string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
                     ]) { 
-{
+
                         sh "aws eks --region $AWS_EKS_REGION update-kubeconfig --name $AWS_EKS_CLUSTER_NAME"
                         sh "kubectl apply -f $k8"
                     }
@@ -36,5 +36,5 @@ pipeline {
             echo 'finish'
         }
     }
-}
+
 }
