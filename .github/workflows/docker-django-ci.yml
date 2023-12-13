@@ -91,6 +91,7 @@ jobs:
       with:
         args: |
           rollout status deployment/backend
+          kubectl get pods -l app=backend
           
     - name: Verify frontend rollout
       uses: kodermax/kubectl-aws-eks@main 
@@ -99,6 +100,7 @@ jobs:
       with:  
         args: |
           rollout status deployment/frontend
+          kubectl get pods -l app=frontend
 
     - name: Debugging
       run: |
