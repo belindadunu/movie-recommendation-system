@@ -84,13 +84,21 @@ jobs:
           set image deployment/backend bdunu24/d10-be:${{ github.sha }}-$GITHUB_SHA
           set image deployment/frontend bdunu24/d10-fe:${{ github.sha }}-$GITHUB_SHA
 
-    - name: Verify deployment
+    - name: Verify backend rollout  
       uses: kodermax/kubectl-aws-eks@main
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: rollout status deployment/backend
-              rollout status deployment/frontend
+        args: |
+          rollout status deployment/backend
+          
+    - name: Verify frontend rollout
+      uses: kodermax/kubectl-aws-eks@main 
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:  
+        args: |
+          rollout status deployment/frontend
 
     - name: Debugging
       run: |
