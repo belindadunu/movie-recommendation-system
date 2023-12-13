@@ -7,14 +7,14 @@ pipeline {
     stage('Build backend'){
         steps {
             dir('backend'){
-            sh 'docker build -t aubreyz/d10be7 .'
+            sh 'docker build -t --no-cache aubreyz/d10be21 .'
             }
         }
     }
     stage('Build frontend'){
         steps {
             dir('frontend'){
-            sh 'docker build -t aubreyz/d10fe7 .'
+            sh 'docker build -t --no-cache aubreyz/d10fe21 .'
             }
         }
     }
@@ -28,14 +28,14 @@ pipeline {
     stage('Push backend') {
         steps {
             dir('backend'){ 
-                sh 'docker push aubreyz/d10be7'
+                sh 'docker push aubreyz/d10be21'
             }
         }
     }
     stage('Push frontend') {
         steps {
             dir('frontend'){ 
-                sh 'docker push aubreyz/d10fe7'
+                sh 'docker push aubreyz/d10fe21'
             }
         }
     }
