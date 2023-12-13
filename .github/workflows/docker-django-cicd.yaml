@@ -82,7 +82,7 @@ jobs:
       with:
         args: |
           set image deployment/backend aubreyz/d10be5:${{ github.sha }}
-          set image deployment/frontend aubreyz/d10-fe5:${{ github.sha }
+          set image deployment/frontend aubreyz/d10-fe5:${{ github.sha }}
 
     - name: Verify backend rollout  
       uses: kodermax/kubectl-aws-eks@main
