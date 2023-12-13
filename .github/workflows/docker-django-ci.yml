@@ -75,5 +75,5 @@ jobs:
 
     - name: Check rollout status  
       run: |
-        kubectl rollout status deployment/d10-be
-        kubectl rollout status deployment/d10-fe
+        kubectl rollout status deployment/backend
+        kubectl rollout status deployment/frontend
