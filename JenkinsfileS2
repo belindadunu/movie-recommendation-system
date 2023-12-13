@@ -1,14 +1,14 @@
 pipeline {
-         agent {
+    agent {
                 label 'awsDeploy3'
             }
     environment {
         AWS_EKS_REGION = 'us-east-1'
-        AWS_EKS_CLUSTER_NAME = 'finalv1'
+        AWS_EKS_CLUSTER_NAME = "finalv2"
     }
 
     stages {
-        stage('Creating the Cluster') {
+        stage('applying to backend deployment/service to EKS') {
             agent {
                 label 'awsDeploy3'
             }
@@ -17,18 +17,12 @@ pipeline {
                     withCredentials([
                         string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
-                    ]) {
-                        // checking if its in the account
-                        if (sh(script: "aws eks describe-cluster --name ${AWS_EKS_CLUSTER_NAME} --region ${AWS_EKS_REGION}", returnStatus: true) != 0) {
-                            echo 'Cluster does not exist, creating cluster now'
-                            sh """
-                                eksctl create cluster ${AWS_EKS_CLUSTER_NAME} --vpc-private-subnets=subnet-0cbac7b7b36f2c2e7,subnet-044cdd9247274a147 \
-                                --vpc-public-subnets=subnet-0e727da3a94299f25,subnet-07a946ebc77a39f16 --without-nodegroup
-                            """
-                        } else {
-                            // if there is a cluster
-                            echo 'Cluster already exists.'
+                    ]) { 
+                        dir('k8'){
+
                         }
+                        sh "aws eks --region $AWS_EKS_REGION update-kubeconfig --name $AWS_EKS_CLUSTER_NAME"
+                        sh "kubectl apply -f deploymentbe.yaml"
                     }
                 }
             }
