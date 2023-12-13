@@ -8,6 +8,8 @@ WORKDIR /backend
 COPY requirements.txt .
 
 # command to install the python dependencies
+RUN pip install django-cors-headers
+# command to install the python dependencies
 RUN pip install -r requirements.txt
 
 # copy all the files into the working dir
