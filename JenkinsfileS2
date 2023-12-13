@@ -26,8 +26,6 @@ pipeline {
                 }
             }
         }
-
-    }
     stage('all done'){
         agent{
             label 'awsDeploy3'
@@ -36,5 +34,7 @@ pipeline {
             echo 'finish'
         }
     }
+    }
+
 
 }
