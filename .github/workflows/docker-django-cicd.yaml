@@ -81,6 +81,11 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
+      - name: Add kubectl to PATH
+        run: |
+          echo 'export PATH=$PATH:/usr/local/bin' >> $GITHUB_ENV
+
+
       - name: Deploy to EKS cluster
         uses: kodermax/kubectl-aws-eks@main
         env:
