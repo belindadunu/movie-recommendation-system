@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "recommender.apps.RecommenderConfig",
-    "corsheaders",  # CORS headers application
+    "corsheaders",  # CORS headers applications
 ]
 
 MIDDLEWARE = [
