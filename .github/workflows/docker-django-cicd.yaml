@@ -84,15 +84,13 @@ jobs:
           kubectl apply -f Kubernetes_files/deploymentbe.yaml
           kubectl apply -f Kubernetes_files/deploymentfe.yaml
 
-
-    - name: Update backend image 
-      uses: kodermax/kubectl-aws-eks@main
+    - name: Set backend image
       env:
-      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      uses: kodermax/kubectl-aws-eks@latest
       with:
-      args: | 
-          set image deployment/backend aubreyz/d10be5:${{ github.sha }}
-
+        args: |
+          kubectl set image deployment/backend aubreyz/d10be5:${{ github.sha }}
 
     - name: Verify backend rollout  
       uses: kodermax/kubectl-aws-eks@main
