@@ -88,12 +88,12 @@ jobs:
       uses: kodermax/kubectl-aws-eks@latest
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        
+
       with:
         args: |
           kubectl set image deployment/backend aubreyz/d10be5:${{ github.sha }}
 
-    - name: Verify backend rollout  
+    - name: Verify backend rollouts  
       uses: kodermax/kubectl-aws-eks@main
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
