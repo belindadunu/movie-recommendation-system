@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='empty')
 DEBUG = True  # Remember to set this to False in production
 
 
-ALLOWED_HOSTS = ['backend', 'frontend']
+ALLOWED_HOSTS = ['*']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
