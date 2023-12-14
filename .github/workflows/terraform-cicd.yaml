@@ -41,7 +41,7 @@ jobs:
 
     - name: Copy state file to S3
       run: | 
-        aws s3 cp .terraform/terraform.tfstate s3://c4-kura-final-proj/
+        aws s3 cp .terraform/terraform.tfstate s3://c4-kura-final-proj/terraform.tfstate
     
     - name: Get state file from S3
       run: |
