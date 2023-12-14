@@ -45,7 +45,7 @@ jobs:
     
     # - name: Get state file from S3
     #   run: |
-    #     aws s3 cp s3://c4-kura-final-proj/terraform.tfstate ./terraform.tfstate
+    #     aws s3 cp s3://c4-kura-final-proj/terraform/terraform.tfstate ./terraform.tfstate
    
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
