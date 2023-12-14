@@ -1,0 +1,40 @@
+pipeline {
+    agent {
+                label 'awsDeploy3'
+            }
+    environment {
+        AWS_EKS_REGION = 'us-east-1'
+        AWS_EKS_CLUSTER_NAME = "finalv1"
+        k8 = 'k8'
+    }
+
+    stages {
+        stage('applying to all files to EKS') {
+            agent {
+                label 'awsDeploy3'
+            }
+            steps {
+                script {
+                    withCredentials([
+                        string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+                        string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
+                    ]) { 
+
+                        sh "aws eks --region $AWS_EKS_REGION update-kubeconfig --name $AWS_EKS_CLUSTER_NAME"
+                        sh "kubectl apply -f $k8"
+                    }
+                }
+            }
+        }
+    stage('all done'){
+        agent{
+            label 'awsDeploy3'
+        }
+        steps{
+            echo 'finish'
+        }
+    }
+    }
+
+
+}
