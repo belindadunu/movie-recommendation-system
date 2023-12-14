@@ -3,7 +3,7 @@
 terraform {
   backend "s3" {
     bucket = "kura-c4-final-proj"
-    key    = "kura-c4-final-proj/terraform/terraform.tfstate"
+    key    = "kura-c4-final-proj/"
     region = "us-east-1"
   }
 }
