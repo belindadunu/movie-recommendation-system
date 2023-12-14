@@ -39,13 +39,13 @@ jobs:
         aws-access-key-id: ${{ secrets.TF_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.TF_SECRET_ACCESS_KEY }}
 
-    # - name: Copy state file to S3
-    #   run: | 
-    #     aws s3 cp terraform.tfstate s3://c4-kura-final-proj/
+    - name: Copy state file to S3
+      run: | 
+        aws s3 cp terraform.tfstate s3://c4-kura-final-proj/
     
-    # - name: Get state file from S3
-    #   run: |
-    #     aws s3 cp s3://c4-kura-final-proj/terraform/terraform.tfstate ./terraform.tfstate
+    - name: Get state file from S3
+      run: |
+        aws s3 cp s3://c4-kura-final-proj/terraform/terraform.tfstate ./terraform.tfstate
    
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
