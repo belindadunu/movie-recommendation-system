@@ -41,11 +41,11 @@ jobs:
 
     - name: Copy state file to S3
       run: | 
-        aws s3 cp .terraform/terraform.tfstate s3://kura-c4-final-proj/terraform.tfstate
+        aws s3 cp .terraform/terraform.tfstate s3://kura-c4-final-proj/terraform/terraform.tfstate
     
     - name: Get state file from S3
       run: |
-        aws s3 cp s3://kura-c4-final-proj/terraform/terraform.tfstate ./terraform.tfstate
+        aws s3 cp s3://kura-c4-final-proj/terraform/terraform.tfstate .terraform/terraform.tfstate
    
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
