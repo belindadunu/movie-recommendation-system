@@ -34,9 +34,11 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: rollout status deployment/backend
+        args: rollout status deployment/$ECR_REPOSITORY
+              kubectl get pods 
+              kubectl describe deploy backend
 
-    - name: deploy to cluster
+    - name: deploy to frontend cluster
       uses: kodermax/kubectl-aws-eks@main
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
@@ -51,7 +53,9 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: rollout status deployment/frontend
+        args: rollout status deployment/$ECR_REPOSITORY
+              kubectl get pods 
+              kubectl describe deploy backend
 
 
       
