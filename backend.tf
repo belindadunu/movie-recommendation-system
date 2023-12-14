@@ -2,10 +2,5 @@
 
 terraform {
   backend "s3" {
-    organization = "C4_Final_Proj"
-
-    workspaces {
-      name = "c4-final-proj"
-    }
   }
 }
