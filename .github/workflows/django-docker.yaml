@@ -38,7 +38,7 @@ jobs:
         
     - name: Retag image for ECR  
       env:
-        ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+        ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
         ECR_REPOSITORY: frontend
         IMAGE_TAG: ${{ github.sha }} 
       run: |   
@@ -72,7 +72,7 @@ jobs:
 
     - name: Deploy to EKS
       env:
-        ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+        ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
         ECR_REPOSITORY: frontend
         IMAGE_TAG: ${{ github.sha }}  
       run: | 
