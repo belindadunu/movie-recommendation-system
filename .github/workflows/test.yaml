@@ -72,7 +72,7 @@ jobs:
 
     - name: Configure kubectl
       run: |  
-        echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > kubeconfig 
+        echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > kubeconfig  
         export KUBECONFIG=$PWD/kubeconfig
 
     - name: Debugging
