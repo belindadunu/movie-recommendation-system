@@ -30,11 +30,8 @@ jobs:
       run: |
         docker pull aubreyz/d10-fe5:latest
 
-    - name: Install Docker Buildx
-      run: |
-        mkdir ~/.docker/cli-plugins/
-        curl -L "https://github.com/docker/buildx/releases/download/v0.10.3/buildx-v0.10.3.linux-amd64" -o ~/.docker/cli-plugins/
-        chmod a+x ~/.docker/cli-plugins/docker-buildx
+    - name: Set up Docker Buildx  
+      uses: docker/setup-buildx-action@v2
 
     - name: AWS ECR Public Authentication
       run: |
