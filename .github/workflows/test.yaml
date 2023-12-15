@@ -30,6 +30,12 @@ jobs:
       run: |
         docker pull aubreyz/d10-fe5:latest
 
+    - name: Install Docker Buildx
+      run: |mkdir
+        mkdir ~/.docker/cli-plugins/
+        curl -L "https://github.com/docker/buildx/releases/download/v0.10.3/buildx-v0.10.3.linux-amd64" -o ~/.docker/cli-plugins/docker-buildx
+        chmod a+x ~/.docker/cli-plugins/docker-buildx
+
     - name: AWS ECR Public Authentication
       run: |
         aws ecr-public get-login-password # To authenticate Docker to an Amazon ECR registry with get-login-password, run the aws ecr get-login-password command
@@ -37,7 +43,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t frontend .
+        docker build -t frontend -f /frontend/Dockerfile .
 
     - name: Tag Docker image for ECR Public
       run: |
