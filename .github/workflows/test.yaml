@@ -69,15 +69,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    # - name: Configure Kubernetes credentials
-      # uses: kodermax/kubectl-aws-eks@main
-      # with: 
-      #   cluster-name: finalv1
-      #   role-arn: ${{ secrets.EKS_ROLE_ARN }}
-      # env: 
-      #   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      # run: |
-      #   kubectl --kubeconfig .kube/config get nodes
+    - name: Configure Kubernetes credentials
+      uses: kodermax/kubectl-aws-eks@main
+      with: 
+        cluster-name: finalv1
+        role-arn: ${{ secrets.EKS_ROLE_ARN }}
+      env: 
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      run: |
+        kubectl --kubeconfig .kube/config get nodes
 
     - name: Decode kubeconfig   
       run: |
