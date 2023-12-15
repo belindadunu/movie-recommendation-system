@@ -70,14 +70,14 @@ jobs:
       # env: 
       #   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       run: |
-        kubectl --kubeconfig /home/ubuntu/.kube/config get nodes
+        kubectl --kubeconfig .kube/config get nodes
 
-    # - name: Debugging
-    #   run: |
-    #     kubectl config view
-    #     kubectl cluster-info
-    #     kubectl cluster-info dump
-    #     env
+    - name: Debugging
+      run: |
+        kubectl config view
+        kubectl cluster-info
+        # kubectl cluster-info dump
+        # env
 
     - name: Deploy to EKS
       env:
