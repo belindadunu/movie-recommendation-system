@@ -73,11 +73,12 @@ jobs:
       uses: kodermax/kubectl-aws-eks@main  
       with:
         args: |
-          set image deployment/frontend 
+          set image deployment/frontend container=$ECR_REGISTRY/myrepo:$IMAGE_TAG
           container=$ECR_REGISTRY/myrepo:$IMAGE_TAG
 
+
     - name: Configure kubectl for EKS
-      uses: aws-actions/amazon-eks-kubectl-action@v1
+      uses: akodermax/kubectl-aws-eks
       with:
         cluster-name: finalv1
         role-arn: ${{ secrets.EKS_ROLE_ARN }}
@@ -85,4 +86,4 @@ jobs:
     - name: Verify deployment
       uses: kodermax/kubectl-aws-eks@main
       with:
-        args: rollout status deployment/my-deployment
+        args: rollout status deployment/frontend
