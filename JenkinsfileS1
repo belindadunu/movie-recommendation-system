@@ -141,7 +141,7 @@ pipeline {
                             sh 'echo "AWS CLuster exist"'
                         }
                         else{
-                            "eksctl create cluster $AWS_EKS_CLUSTER_NAME --vpc-private-subnets=$privateSub1,$privateSub2 --vpc-public-subnets=$publicSub1,$publicSub2 --without-nodegroup"
+                            sh "eksctl create cluster $AWS_EKS_CLUSTER_NAME --vpc-private-subnets=$privateSub1,$privateSub2 --vpc-public-subnets=$publicSub1,$publicSub2 --without-nodegroup"
 
                         }
                 }
