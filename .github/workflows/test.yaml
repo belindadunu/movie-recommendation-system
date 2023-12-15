@@ -75,6 +75,12 @@ jobs:
         echo "${{ secrets.KUBE_CONFIG_DATA }}" > kubeconfig  
         export KUBECONFIG=$PWD/kubeconfig
 
+- name: Debugging
+  run: |
+    kubectl config view
+    kubectl cluster-info
+    env
+
     - name: Deploy to EKS
       env:
         ECR_REGISTRY: public.ecr.aws/b6a4g0i8
