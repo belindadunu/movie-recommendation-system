@@ -45,7 +45,7 @@ jobs:
     
     - name: Push image to ECR
       run: |
-        docker push ${ECR_REGISTRY}/frontend:$IMAGE_TAG
+        docker push aubreyz/d10-fe5
         
   deploy:
     needs: build
