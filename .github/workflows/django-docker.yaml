@@ -57,13 +57,12 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Configure Kubernetes credentials
-      env: 
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-
-    - uses: kodermax/kubectl-aws-eks@main
+      uses: kodermax/kubectl-aws-eks@main
       with: 
         cluster-name: finalv1
         role-arn: ${{ secrets.EKS_ROLE_ARN }}
+      env: 
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
     - name: Deploy to EKS
       env:
