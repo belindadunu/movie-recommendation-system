@@ -32,7 +32,8 @@ jobs:
 
     - name: AWS ECR Public Authentication
       run: |
-        docker login --username aubreyz --password-stdin public.ecr.aws/b6a4g0i8
+        aws ecr-public get-login-password # To authenticate Docker to an Amazon ECR registry with get-login-password, run the aws ecr get-login-password command
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b6a4g0i8 # Authentication token
 
     - name: Build Docker image
       run: |
