@@ -78,7 +78,7 @@ jobs:
     - name: Debugging
       run: |
         kubectl config view
-        kubectl cluster-info
+        kubectl cluster-info dump
         env
 
     - name: Deploy to EKS
