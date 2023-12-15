@@ -131,9 +131,8 @@ output "privatesub1" {
 }
 
 output "privatesub1" {
-  value = aws_subnet.pri1.id
+  value = aws_subnet.pri2.id
 }
-
 # ################ Creating Security group ##########################
 # resource "aws_security_group" "sg" {
 #   name = "d10_sg"
