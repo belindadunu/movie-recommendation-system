@@ -20,6 +20,7 @@ pipeline {
                             string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
                             string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
                         ]) { 
+                            sh 'echo "starting now"'
                             sh 'aws configure set aws_access_key_id $aws_access_key'
                             sh 'aws configure set aws_secret_access_key $aws_secret_key'
                             sh 'aws configure set default.region $AWS_EKS_REGION'
