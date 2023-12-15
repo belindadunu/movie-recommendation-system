@@ -7,14 +7,14 @@ pipeline {
     stage('Build backend'){
         steps {
             dir('backend'){
-            sh 'docker build -t aubreyz/d10be25 .'
+            sh 'docker build --no-cache -t aubreyz/d10be25 .'
             }
         }
     }
     stage('Build frontend'){
         steps {
             dir('frontend'){
-            sh 'docker build -t aubreyz/d10fe25 .'
+            sh 'docker build --no-cache -t aubreyz/d10fe25 .'
             }
         }
     }
@@ -97,6 +97,39 @@ pipeline {
          }
         }
     }
+            agent {
+                label 'awsDeploy3'
+            }
+        environment {
+            AWS_EKS_REGION = 'us-east-1'
+            AWS_EKS_CLUSTER_NAME = "finalv1"
+            k8 = 'k8'
+        }
+
+    stages {
+        stage('Adding AWS Credentials for EKS instance'){
+            agent{
+                label 'awsDeploy3'
+            }
+
+                steps{
+                    script {
+                        withCredentials([
+                            string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+                            string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
+                        ]) { 
+                            sh 'echo "starting now"'
+                            sh 'aws configure set aws_access_key_id $aws_access_key'
+                            sh 'aws configure set aws_secret_access_key $aws_secret_key'
+                            sh 'aws configure set default.region $AWS_EKS_REGION'
+                            sh 'echo "AWS Credentials are all set"'
+                        }
+                    }
+                }
+            
+            }
+
+
 
 
 //   stage('Destroy') {
