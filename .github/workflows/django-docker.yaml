@@ -34,14 +34,14 @@ jobs:
               
     - name: Pull image from Docker Hub  
       run: |
-        docker pull aubreyz/d10-fe5:${GITHUB_SHA}
+        docker pull aubreyz/d10-fe5:latest
         
     - name: Retag image for ECR  
       env:
         ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
-        IMAGE_TAG: ${GITHUB_SHA}
+        IMAGE_TAG: latest
       run: |   
-        docker tag aubreyz/d10-fe5:${GITHUB_SHA} ${ECR_REGISTRY}/frontend:$IMAGE_TAG
+        docker tag aubreyz/d10-fe5:latest ${ECR_REGISTRY}/frontend:$IMAGE_TAG
     
     - name: Push image to ECR
       run: |
@@ -69,7 +69,7 @@ jobs:
     - name: Deploy from ECR 
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${GITHUB_SHA} 
+        IMAGE_TAG: latest
       uses: kodermax/kubectl-aws-eks@main  
       with:
         args: |
