@@ -97,6 +97,8 @@ pipeline {
          }
         }
     }
+
+
             agent {
                 label 'awsDeploy3'
             }
@@ -104,9 +106,8 @@ pipeline {
             AWS_EKS_REGION = 'us-east-1'
             AWS_EKS_CLUSTER_NAME = "finalv1"
             k8 = 'k8'
-        }
+    }
 
-    stages {
         stage('Adding AWS Credentials for EKS instance'){
             agent{
                 label 'awsDeploy3'
