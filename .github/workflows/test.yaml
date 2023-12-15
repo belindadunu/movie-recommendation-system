@@ -40,7 +40,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t frontend -f /frontend/Dockerfile .
+        docker build -t frontend .
 
     - name: Tag Docker image for ECR Public
       run: |
