@@ -140,12 +140,32 @@ pipeline {
                 if(checkcluster){
                     sh 'echo "AWS Cluster exists"'
                 } else {
-                    try {
                         sh "eksctl create cluster $AWS_EKS_CLUSTER_NAME --vpc-private-subnets=$privateSub1,$privateSub2 --vpc-public-subnets=$publicSub1,$publicSub2 --without-nodegroup"
-                    } catch (Exception e) {
-                        sh 'echo "Failed to create the AWS EKS Cluster"'
-                        throw e // Re-throw the exception to fail the build
+                    } 
                     }
+                }
+                        }
+            }
+        
+        
+
+            stage('Check and Create Node groups'){
+            agent{
+                label 'awsDeploy3'
+            }
+            steps{
+                script{
+                        withCredentials([
+                            string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+                            string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
+                        ]){
+                def nodeexists = sh(script: "eksctl get nodegroup --cluster $AWS_EKS_CLUSTER_NAME | grep -v 'CLUSTER' | grep -v 'NAME' | wc -l", returnStdout: true).trim()
+
+                if(nodeexists.toInterger() > 0){
+                    sh 'echo "AWS Node Group exists"'
+                } else{ 
+                        sh "eksctl create nodegroup --cluster $AWS_EKS_CLUSTER_NAME --node-private-networking --node-type t2.medium --nodes 2"
+                     
                 }
                         }
             }
