@@ -87,20 +87,12 @@ jobs:
       run: |  
         kubectl --kubeconfig ./kubeconfig get nodes
 
-<<<<<<< HEAD
     - name: Debugging
       run: |
         kubectl config view
         kubectl cluster-info
-        # kubectl cluster-info dump
-        # env
-=======
-- name: Debugging
-  run: |
-    kubectl config view
-    kubectl cluster-info
-    env
->>>>>>> parent of 1982804 (test)
+        kubectl cluster-info dump
+        env
 
     - name: Deploy to EKS
       env:
