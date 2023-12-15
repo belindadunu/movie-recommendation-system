@@ -77,7 +77,7 @@ jobs:
           container=$ECR_REGISTRY/myrepo:$IMAGE_TAG
 
     - name: Configure kubectl for EKS
-      uses: aws-actions/amazon-eks-kubectl@v1
+      uses: aws-actions/amazon-eks-kubectl-action@v1
       with:
         cluster-name: finalv1
         role-arn: ${{ secrets.EKS_ROLE_ARN }}
