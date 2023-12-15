@@ -76,6 +76,29 @@ pipeline {
         }
     }
 
+        stage('Storing Subnets ID for EKS') {
+        agent {label 'awsDeploy1'}
+       steps {
+        withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
+                        string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
+                            dir('ecsTerraform') {
+                            script{
+                                def publicSub1 = sh(script: 'terraform output -raw publicsub1', returnStdout: true).trim()
+                                def publicSub2 = sh(script: 'terraform output -raw publicsub2', returnStdout: true).trim()
+                                def privateSub1 = sh(script: 'terraform output -raw privatesub1', returnStdout: true).trim()
+                                def privateSub2 = sh(script: 'terraform output -raw privatesub2', returnStdout: true).trim()
+                                echo "Public Subnet 1 ID: ${publicSub1}"
+                                echo "Public Subnet 2 ID: ${publicSub2}"
+                                echo "Private Subnet 1 ID: ${privateSub1}"
+                                echo "Private Subnet 1 ID: ${privateSub1}"
+
+                            }
+                            }
+         }
+        }
+    }
+
+
 //   stage('Destroy') {
 //     agent {label 'awsDeploy2'}
 //     steps {
