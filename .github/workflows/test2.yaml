@@ -69,16 +69,18 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Deploy to EKS
-      uses: steebchen/kubectl@v2.0.0
-      with:
-        config: ${{ secrets.KUBE_CONFIG_DATA }}
-        command: set image --record deployment/frontend container=public.ecr.aws/b6a4g0i8/frontend:latest
+  - name: Deploy
+    uses: steebchen/kubectl@master
+    env:
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}  
+    with:
+      config: ${{ secrets.KUBE_CONFIG_DATA }}
+      command: set image deployment/my-deployment mycontainer=$ECR_REGISTRY/$ECR_REPO:$GITHUB_SHA
 
-    - name: Verify deployment
-      uses: steebchen/kubectl@v2.0.0
-      with:
-        config: ${{ secrets.KUBE_CONFIG_DATA }}
-        version: v1.21.0
-        binaries-url: "https://dl.k8s.io/release/v1.21.0/bin/linux/amd64/kubectl"
-        command: rollout status deployment/frontend
+  - name: Verify deployment 
+    uses: steebchen/kubectl@master
+    env:
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}  
+    with:
+      config: ${{ secrets.KUBE_CONFIG_DATA }}  
+      command: rollout status deployment/my-deployment
