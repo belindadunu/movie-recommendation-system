@@ -130,7 +130,7 @@ output "privatesub1" {
   value = aws_subnet.pri1.id
 }
 
-output "privatesub21" {
+output "privatesub2" {
   value = aws_subnet.pri2.id
 }
 # ################ Creating Security group ##########################
