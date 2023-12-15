@@ -135,8 +135,7 @@ pipeline {
                             string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
                             string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
                         ])
-                        def checkcluster = sh(script: 
-                        "aws eks --regaion AWS_EKS_REGION list-clusters | grep -w $AWS_EKS_CLUSTER_NAME", returnStatus: true) == 0
+                        def checkcluster = sh(script: "aws eks --region $AWS_EKS_REGION list-clusters | grep -w $AWS_EKS_CLUSTER_NAME", returnStatus: true) == 0
 
                         if(checkcluster){
                             sh 'echo "AWS CLuster exist"'
