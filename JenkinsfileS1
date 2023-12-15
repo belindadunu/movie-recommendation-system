@@ -7,7 +7,7 @@ pipeline {
         k8 = 'k8'
     }
     agent {label 'awsDeploy2'}
-        }
+        
     stages{
     stage('Build backend'){
         steps {
