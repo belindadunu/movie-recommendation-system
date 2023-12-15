@@ -12,14 +12,14 @@ pipeline {
     stage('Build backend'){
         steps {
             dir('backend'){
-            sh 'docker build -t aubreyz/d10be25 .'
+            sh 'docker build --no-cache -t aubreyz/d10be25 .'
             }
         }
     }
     stage('Build frontend'){
         steps {
             dir('frontend'){
-            sh 'docker build -t aubreyz/d10fe25 .'
+            sh 'docker build --no-cache -t aubreyz/d10fe25 .'
             }
         }
     }
@@ -125,7 +125,43 @@ pipeline {
                 }
             
             }
+        stage('Verifying/Describle EKS Cluster'){
+            agent{
+                label 'awsDeploy3'
+            }
+            steps{
+                script{
+                    sh "aws eks --region $AWS_EKS_REGION describe-cluster --name $AWS_EKS_CLUSTER_NAME"
 
+                }
+            
+            }
+        }
+        stage('applying to all files to EKS') {
+            agent {
+                label 'awsDeploy3'
+            }
+            steps {
+                script {
+                    withCredentials([
+                        string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+                        string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
+                    ]) { 
+
+                        sh "aws eks --region $AWS_EKS_REGION update-kubeconfig --name $AWS_EKS_CLUSTER_NAME"
+                        sh "kubectl apply -f $k8"
+                    }
+                }
+            }
+        }
+        stage('EKS Cluster has been updated successfully'){
+        agent{
+            label 'awsDeploy3'
+        }
+        steps{
+            echo 'Yay, files has been completed'
+        }
+    }
 
 
 
