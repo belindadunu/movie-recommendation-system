@@ -1,31 +1,71 @@
-# jobs:
+name: Django-Docker-CICD
 
-#   build:
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-#     runs-on: ubuntu-latest
-    
-#     steps:
-#     - uses: actions/checkout@v3
+jobs:
 
-#     - name: Configure AWS credentials
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: us-east-2
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
 
-#     - name: Login to Amazon ECR 
-#       id: login-ecr
-#       uses: aws-actions/amazon-ecr-login@v1
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:  
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+              
+    - name: Pull image from Docker Hub  
+      run: |
+        docker pull aubreyz/d10-fe5:latest
 
-#     - name: Build, tag, and push image to Amazon ECR
-#       env:
-#         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}  
-#         IMAGE_TAG: ${{ github.sha }}  
-#       run: |        
-#         docker build -t $ECR_REGISTRY/backend:$IMAGE_TAG .
-#         docker push $ECR_REGISTRY/backend:$IMAGE_TAG
+    - name: AWS ECR Public Authentication
+      run: |
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b6a4g0i8
+
+    - name: Build Docker image
+      run: |
+        docker build -t frontend .
+
+    - name: Tag Docker image for ECR Public
+      run: |
+        docker tag frontend:latest public.ecr.aws/b6a4g0i8/frontend:latest
+
+    - name: Push image to ECR Public
+      run: |
+        docker push public.ecr.aws/b6a4g0i8/frontend:latest
         
-#   deploy:
-#     needs: build
-#     # deployment steps here
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure Kubernetes credentials
+      uses: kodermax/kubectl-aws-eks@main
+      with: 
+        cluster-name: finalv1
+        role-arn: ${{ secrets.EKS_ROLE_ARN }}
+      env: 
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+
+    - name: Deploy to EKS
+      env:
+        ECR_REGISTRY: public.ecr.aws/b6a4g0i8
+        ECR_REPOSITORY: frontend
+        IMAGE_TAG: latest  
+      run: | 
+        kubectl set image deployment/$ECR_REPOSITORY container=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
