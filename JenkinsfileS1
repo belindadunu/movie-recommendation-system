@@ -12,14 +12,14 @@ pipeline {
     stage('Build backend'){
         steps {
             dir('backend'){
-            sh 'docker build --no-cache -t aubreyz/d10be25 .'
+            sh 'docker build -t aubreyz/d10be25 .'
             }
         }
     }
     stage('Build frontend'){
         steps {
             dir('frontend'){
-            sh 'docker build --no-cache -t aubreyz/d10fe25 .'
+            sh 'docker build -t aubreyz/d10fe25 .'
             }
         }
     }
