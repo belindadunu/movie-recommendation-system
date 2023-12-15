@@ -125,14 +125,26 @@ pipeline {
                 }
             
             }
-        stage('Verifying/Describe EKS Cluster'){
+        stage('Check and Apply Cluster'){
             agent{
                 label 'awsDeploy3'
             }
             steps{
                 script{
-                    sh "aws eks --region $AWS_EKS_REGION describe-cluster --name $AWS_EKS_CLUSTER_NAME"
+                        withCredentials([
+                            string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+                            string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
+                        ])
+                        def checkcluster = sh(script: 
+                        "aws eks --regaion AWS_EKS_REGION list-clusters | grep -w $AWS_EKS_CLUSTER_NAME", returnStatus: true) == 0
 
+                        if(checkcluster){
+                            sh 'echo "AWS CLuster exist"'
+                        }
+                        else{
+                            "eksctl create cluster $AWS_EKS_CLUSTER_NAME --vpc-private-subnets=$privateSub1,$privateSub2 --vpc-public-subnets=$publicSub1,$publicSub2 --without-nodegroup"
+
+                        }
                 }
             
             }
