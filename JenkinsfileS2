@@ -9,6 +9,23 @@ pipeline {
     }
 
     stages {
+        stage('Verifying EKS instance'){
+        agent{
+            label 'awsDeploy3'
+        }
+        steps{
+            echo 'using EKS instance'
+        }
+    }
+    
+        stage('Setting AWS credentials for CLI'){
+        agent{
+            label 'awsDeploy3'
+        }
+        steps{
+            echo 'using EKS instance'
+        }
+    }
         stage('applying to all files to EKS') {
             agent {
                 label 'awsDeploy3'
