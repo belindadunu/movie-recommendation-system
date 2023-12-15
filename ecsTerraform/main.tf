@@ -118,6 +118,22 @@ resource "aws_route_table_association" "private2" {
   route_table_id = aws_route_table.private.id
 }
 
+output "publicsub1" {
+  value = aws_subnet.pub1.id
+}
+
+output "publicsub2" {
+  value = aws_subnet.pub2.id
+}
+
+output "privatesub1" {
+  value = aws_subnet.pri1.id
+}
+
+output "privatesub1" {
+  value = aws_subnet.pri1.id
+}
+
 # ################ Creating Security group ##########################
 # resource "aws_security_group" "sg" {
 #   name = "d10_sg"
