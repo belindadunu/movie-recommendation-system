@@ -125,7 +125,7 @@ pipeline {
                 }
             
             }
-        stage('Verifying/Describle EKS Cluster'){
+        stage('Verifying/Describe EKS Cluster'){
             agent{
                 label 'awsDeploy3'
             }
