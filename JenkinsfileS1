@@ -150,6 +150,7 @@ pipeline {
             
             }
         }
+        }
         stage('applying to all files to EKS') {
             agent {
                 label 'awsDeploy3'
