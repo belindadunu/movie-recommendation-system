@@ -32,7 +32,7 @@ jobs:
 
     - name: AWS ECR Public Authentication
       run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b6a4g0i8
+        docker login --username aubreyz --password-stdin public.ecr.aws/b6a4g0i8
 
     - name: Build Docker image
       run: |
