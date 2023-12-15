@@ -9,7 +9,7 @@ pipeline {
     }
 
     stages {
-        stage('Adding AWS for EKS instance'){
+        stage('Adding AWS Credentials for EKS instance'){
             agent{
                 label 'awsDeploy3'
             }
@@ -24,6 +24,7 @@ pipeline {
                             sh 'aws configure set aws_access_key_id $aws_access_key'
                             sh 'aws configure set aws_secret_access_key $aws_secret_key'
                             sh 'aws configure set default.region $AWS_EKS_REGION'
+                            sh 'echo "AWS Credentials are all set"'
                         }
                     }
                 }
@@ -31,13 +32,12 @@ pipeline {
             }
         
 
-        stage('Verifying EKS instance'){
+        stage('Verifying/Describle  EKS Cluster'){
             agent{
                 label 'awsDeploy3'
             }
             steps{
                 script{
-                    sh "echo 'using EKS instance'"
                     sh "aws eks --region $AWS_EKS_REGION describe-cluster --name $AWS_EKS_CLUSTER_NAME"
 
                 }
@@ -63,12 +63,12 @@ pipeline {
                 }
             }
         }
-    stage('all done'){
+    stage('EKS Cluster has been updated successfully'){
         agent{
             label 'awsDeploy3'
         }
         steps{
-            echo 'finish'
+            echo 'Yay, files has been completed'
         }
     }
     }
