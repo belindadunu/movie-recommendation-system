@@ -1,7 +1,12 @@
 pipeline {
-    agent {label 'awsDeploy2'}
+    
     environment{
         DOCKERHUB_CREDENTIALS = credentials('aubreyz-dockerhub')
+        AWS_EKS_REGION = 'us-east-1'
+        AWS_EKS_CLUSTER_NAME = "finalv1"
+        k8 = 'k8'
+    }
+    agent {label 'awsDeploy2'}
         }
     stages{
     stage('Build backend'){
@@ -98,15 +103,6 @@ pipeline {
         }
     }
 
-
-            agent {
-                label 'awsDeploy3'
-            }
-        environment {
-            AWS_EKS_REGION = 'us-east-1'
-            AWS_EKS_CLUSTER_NAME = "finalv1"
-            k8 = 'k8'
-    }
 
         stage('Adding AWS Credentials for EKS instance'){
             agent{
