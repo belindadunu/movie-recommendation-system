@@ -78,7 +78,7 @@ jobs:
 
 
     - name: Configure kubectl for EKS
-      uses: akodermax/kubectl-aws-eks
+      uses: kodermax/kubectl-aws-eks@main
       with:
         cluster-name: finalv1
         role-arn: ${{ secrets.EKS_ROLE_ARN }}
