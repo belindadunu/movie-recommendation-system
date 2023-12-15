@@ -161,7 +161,7 @@ pipeline {
                         ]){
                 def nodeexists = sh(script: "eksctl get nodegroup --cluster $AWS_EKS_CLUSTER_NAME | grep -v 'CLUSTER' | grep -v 'NAME' | wc -l", returnStdout: true).trim()
 
-                if(nodeexists.toInterger() > 0){
+                if(nodeexists.toInteger() > 0){
                     sh 'echo "AWS Node Group exists"'
                 } else{ 
                         sh "eksctl create nodegroup --cluster $AWS_EKS_CLUSTER_NAME --node-private-networking --node-type t2.medium --nodes 2"
