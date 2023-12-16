@@ -61,6 +61,22 @@ The Movie Recommendation System is a user-friendly movie recommendation applicat
 
    a. Open the HTML file in a web browser.
 
+
+# Technical 
+
+## Tech Stack:
+This application is built on a Django python framework, the application also utilizes a dbsqlite database to store any movies and searches by the user. Both the Django framework and dbsqlite database are in the backend of the application. We are also incorporating nginx as a reverse proxy in the frontend of the application. Nginx will redirect traffic to the backend of our servers and provide more security incase of any breaches.
+
+## Docker:
+Docker is used to containerize the application. The `Dockerfile` in each app’s directory specifies the environment and dependencies. The frontend dockerfile contains the image for our nginx reverse proxy, it creates the nginx image and exposes port 80 to access to the frontend of our application. The backend dockerfile contains the configuration of our backend dependencies. It includes the python image, and exposes port 8000 for our application be accessed from. These images were created and tested by running the `docker build` and `docker run` commands. Once these images were tested and created successfully they were uploaded to dockerhub for easier access.
+
+## Terraform:
+Terraform files were configured to create the cloud infrastructure that our application was going to be built on. To start off we also configured terraform files to create AWS user accounts for every team member in the group, we configured it with the right permissions and roles. Following that we created terraform files to create specific instances for docker, Jenkins and terraform. Once those were created, we configured one last terraform file which included our cloud infrastructure for our application.
+
+## Jenkins Pipeline:
+Jenkins was the automation tool that we used for this application. For our Jenkins pipeline we created two jenkinsfile to run. Our Jenkins pipeline was created with two agent nodes, the first Jenkins agent `JenkinsfileS1` was instructed to initialize our terraform environment, followed by plan and lastly we applied our configurations from our terraform files. Our second Jenkinsfile was instructed to build the docker images, once the docker images were built, we gave it access to dockerhub credentials and allowed it to push to dockerhub.
+
+
    b. Type the name of a movie in the search bar, and the system will provide movie recommendations.
 
    Note: The system database contains only the top 2.5K movies based on IMDb.
