@@ -1,6 +1,7 @@
 # based on https://registry.terraform.io/modules/clouddrove/cloudwatch-alarms/aws/latest
 # and https://github.com/lorenzoaiello/terraform-aws-rds-alarms
 
+# over 70%
 
 resource "aws_cloudwatch_metric_alarm" "cpu_utilization_high" {
   alarm_name          = "highCPUUtilization"
