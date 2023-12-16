@@ -2,7 +2,7 @@
 
 resource "aws_cloudwatch_log_metric_filter" "d10_final" {
   name           = "MyAppErrorCount"
-  pattern        = ""
+  pattern        = "{ $.['log.level'] = \"ERROR\" || $.['log.level'] = \"error\" }"
   log_group_name = aws_cloudwatch_log_group.d10_final.name
 
   metric_transformation {
