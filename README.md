@@ -61,6 +61,9 @@ The Movie Recommendation System is a user-friendly movie recommendation applicat
 
    a. Open the HTML file in a web browser.
 
+   b. Type the name of a movie in the search bar, and the system will provide movie recommendations.
+
+   Note: The system database contains only the top 2.5K movies based on IMDb.
 
 # Technical 
 
@@ -77,7 +80,5 @@ Terraform files were configured to create the cloud infrastructure that our appl
 Jenkins was the automation tool that we used for this application. For our Jenkins pipeline we created two jenkinsfile to run. Our Jenkins pipeline was created with two agent nodes, the first Jenkins agent `JenkinsfileS1` was instructed to initialize our terraform environment, followed by plan and lastly we applied our configurations from our terraform files. Our second Jenkinsfile was instructed to build the docker images, once the docker images were built, we gave it access to dockerhub credentials and allowed it to push to dockerhub.
 
 
-   b. Type the name of a movie in the search bar, and the system will provide movie recommendations.
 
-   Note: The system database contains only the top 2.5K movies based on IMDb.
 
