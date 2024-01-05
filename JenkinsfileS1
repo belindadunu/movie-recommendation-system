@@ -1,3 +1,5 @@
+# pipeline will creating everything at once
+
 pipeline {
     
     environment{
