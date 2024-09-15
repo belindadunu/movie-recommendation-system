@@ -8,10 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default='empty')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Remember to set this to False in production
+DEBUG = False  # Remember to set this to False in production
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['backend', 'frontend']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "recommender.apps.RecommenderConfig",
-    "corsheaders",  # CORS headers application
+    "corsheaders",  # CORS headers applications
 ]
 
 MIDDLEWARE = [

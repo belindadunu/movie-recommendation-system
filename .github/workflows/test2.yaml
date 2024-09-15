@@ -1,0 +1,86 @@
+name: Django-Docker-CICD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  build:
+    runs-on: [self-hosted, Linux, X64]
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:  
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+              
+    - name: Pull image from Docker Hub  
+      run: |
+        docker pull aubreyz/d10-fe5:latest
+
+    - name: Set up Docker Buildx  
+      uses: docker/setup-buildx-action@v2
+
+    - name: AWS ECR Public Authentication
+      run: |
+        aws ecr-public get-login-password # To authenticate Docker to an Amazon ECR registry with get-login-password, run the aws ecr get-login-password command
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/b6a4g0i8 # Authentication token
+
+    - name: Create Dockerfile
+      run: |
+        echo "FROM aubreyz/d10-fe5:latest" > Dockerfile
+
+    - name: Build Docker image
+      run: |
+        docker build -t frontend .
+
+    - name: Tag Docker image for ECR Public
+      run: |
+        docker tag frontend:latest public.ecr.aws/b6a4g0i8/frontend:latest
+
+    - name: Push image to ECR Public
+      run: |
+        docker push public.ecr.aws/b6a4g0i8/frontend:latest
+        
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+  - name: Deploy
+    uses: steebchen/kubectl@master
+    env:
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}  
+    with:
+      config: ${{ secrets.KUBE_CONFIG_DATA }}
+      command: set image deployment/my-deployment mycontainer=$ECR_REGISTRY/$ECR_REPO:$GITHUB_SHA
+
+  - name: Verify deployment 
+    uses: steebchen/kubectl@master
+    env:
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}  
+    with:
+      config: ${{ secrets.KUBE_CONFIG_DATA }}  
+      command: rollout status deployment/my-deployment
